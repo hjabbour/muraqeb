@@ -10,3 +10,5 @@ python-decouple
 gunicorn
 whitenoise
 django-import-export
+pymongo
+pandas

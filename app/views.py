@@ -3,7 +3,8 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 import json
-
+import pandas as pd
+from app import utils
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -11,6 +12,7 @@ from django.template import loader
 
 from app.models import Sale, Stats
 
+#collection=utils.collection
 def index(request):
     context = {'segment': 'index'}
     html_template = loader.get_template('index.html')
@@ -60,9 +62,11 @@ def index(request):
     # Load from File -> +sample_data/chart_morris.json
     # ------------------------------------------------
 
-    with open('sample_data/chart_morris.json', 'r') as f:
-        context['chart_data'] = json.dumps(json.load(f))
+    #with open('sample_data/chart_morris.json', 'r') as f:
+        #context['chart_data'] = json.dumps(json.load(f))
 
+    context['avgc'] =  utils.coltopd()
+    context['all_reports']= utils.all_reports
     return HttpResponse(html_template.render(context, request))
 
 def charts_file(request):
