@@ -67,6 +67,9 @@ def index(request):
 
     context['avgc'] =  utils.coltopd()
     context['all_reports']= utils.colreports()
+    context['minp'] =  utils.minprice()
+    context['maxp'] =  utils.minprice()
+
     return HttpResponse(html_template.render(context, request))
 
 def charts_file(request):

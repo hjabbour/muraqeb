@@ -56,3 +56,52 @@ def colreports():
     all_reports['locations'] = len(collection.distinct("loc"))
     return all_reports 
 
+def minprice():
+    
+    agg_result= collection.aggregate( 
+        [{ "$sort": { "price": 1 } },
+            { 
+        "$group" :  
+            {"_id" : {"Product":"$product"},
+             "Price" : {"$min" : "$price"},
+             "Location" : {"$first":"$rawloc.display_name"}
+             
+             }} 
+        ]) 
+
+    array = []
+    for x in agg_result:
+        #print(x)
+        array.append(x)
+    aggdf = pd.DataFrame(array)
+    #print(aggdf)
+    aggdf.rename(columns={'_id':'Product'},inplace=True)
+    json_records=aggdf.reset_index().to_json(orient='records')
+    arr = json.loads(json_records)
+    #return aggdf.to_json()
+    return arr
+
+def maxprice():
+    
+    agg_result= collection.aggregate( 
+        [{ "$sort": { "price": -1 } },
+            { 
+        "$group" :  
+            {"_id" : {"Product":"$product"},
+             "Price" : {"$max" : "$price"},
+             "Location" : {"$first":"$rawloc.display_name"}
+             
+             }} 
+        ]) 
+
+    array = []
+    for x in agg_result:
+        #print(x)
+        array.append(x)
+    aggdf = pd.DataFrame(array)
+    #print(aggdf)
+    aggdf.rename(columns={'_id':'Product'},inplace=True)
+    json_records=aggdf.reset_index().to_json(orient='records')
+    arr = json.loads(json_records)
+    #return aggdf.to_json()
+    return arr
