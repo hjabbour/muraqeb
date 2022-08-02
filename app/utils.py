@@ -53,7 +53,7 @@ def colreports():
     all_reports['day'] = collection.count_documents( {"time": {"$gt":one_day}})
     all_reports['week'] = collection.count_documents( {"time": {"$gt":past_week}})
     all_reports['month'] = collection.count_documents( {"time": {"$gt":past_month}})
-    all_reports['locations'] = len(collection.distinct("loc"))
+    all_reports['locations'] = nmbrofloc()
     return all_reports 
 
 def minprice():
@@ -105,3 +105,19 @@ def maxprice():
     arr = json.loads(json_records)
     #return aggdf.to_json()
     return arr
+
+def nmbrofloc():
+    
+    agg_result= collection.aggregate( 
+        [
+            { 
+        "$group" :  
+            {"_id" : {"location":"$rawloc"}
+             }} 
+        ]) 
+
+    array = []
+    for x in agg_result:
+        #print(x)
+        array.append(x)
+    return(len(array))

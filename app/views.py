@@ -68,7 +68,7 @@ def index(request):
     context['avgc'] =  utils.coltopd()
     context['all_reports']= utils.colreports()
     context['minp'] =  utils.minprice()
-    context['maxp'] =  utils.minprice()
+    context['maxp'] =  utils.maxprice()
 
     return HttpResponse(html_template.render(context, request))
 
