@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+import datetime
+from dateutil.relativedelta import relativedelta
 import pandas as pd
 import json
 
@@ -6,7 +8,7 @@ import json
 client = MongoClient('mongodb://root:rootpasswordhj123@199.241.137.238:27017')
 db = client['raqebloc']
 collection = db['raqebdata']
-all_reports = collection.count_documents({})
+
 #convert entire collection to Pandas dataframe
 #test = pd.DataFrame(list(collection.find({})))
 #print(test)
@@ -17,7 +19,7 @@ def coltopd():
         [{ 
         "$group" :  
             {"_id" : "$product",  
-             "Total" : {"$sum" : 1}, 
+             "Total" : {"$sum" : 1},
              "Average" : {"$avg" :"$price"} 
              }} 
         ]) 
@@ -33,3 +35,24 @@ def coltopd():
     #return aggdf.to_json()
     #client.close()
     return arr
+
+def colreports():
+    all_reports = {}
+    pipeline =     [
+    {"$group" :  
+        {"_id" : "$loc",  
+         "Total" : {"$sum" : 1}, 
+         "Average" : {"$avg" :"$price"} 
+         }} 
+    ] 
+    todayd = datetime.datetime.today()
+    one_day = todayd - relativedelta(days=1)
+    past_week = todayd - relativedelta(weeks=1)
+    past_month = todayd - relativedelta(weeks=4)
+    all_reports['all'] = collection.count_documents({})
+    all_reports['day'] = collection.count_documents( {"time": {"$gt":one_day}})
+    all_reports['week'] = collection.count_documents( {"time": {"$gt":past_week}})
+    all_reports['month'] = collection.count_documents( {"time": {"$gt":past_month}})
+    all_reports['locations'] = len(collection.distinct("loc"))
+    return all_reports 
+

@@ -40,18 +40,6 @@
                             <span class="pcoded-micon"><i class="feather icon-bar-chart"></i></span>
                                 <span class="pcoded-mtext">Charts from Data</span></a>
                     </li>                    
-                    
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>UI Element</label>
-
-                    
-              
-                    <li data-username="Table bootstrap datatable footable" 
-                        class="nav-item {% if 'ui-tables' in segment %} active {% endif %}">
-                        <a href="/ui-tables.html" class="nav-link ">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-server"></i></span><span class="pcoded-mtext">Table</span></a>
-                    </li>
                     <li class="nav-item pcoded-menu-caption">
                         <label>Chart & Maps</label>
                     </li>
@@ -63,37 +51,9 @@
                         <a href="/maps-google.html" class="nav-link ">
                             <span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Maps</span></a></li>
 
-                    <li class="nav-item pcoded-menu-caption">
-                        <label>Authentication</label>
-                    </li>
+                
 
-                    {% if user.is_superuser %}
-                    <li data-username="Admin" class="nav-item">
-                        <a target="_blank" href="/admin/" class="nav-link">
-                            <span class="pcoded-micon">
-                                <i class="feather icon-sidebar"></i></span>
-                                    <span class="pcoded-mtext">Admin Dashboard</span></a>
-                    </li>
-                    {% endif %}
-
-                    <li data-username="Disabled Menu" class="nav-item">
-                        {% if user.is_authenticated %}
-                            <a href={% url 'logout' %} class="nav-link">
-                                <span class="pcoded-micon">
-                                    <i class="feather icon-power"></i>
-                                </span>
-                                <span class="pcoded-mtext">Logout - [ {{ request.user.username }} ]</span>
-                            </a>
-                        {% else %}
-                            <a href={% url 'login' %} class="nav-link">
-                                <span class="pcoded-micon">
-                                    <i class="feather icon-user"></i>
-                                </span>
-                                <span class="pcoded-mtext">Login</span>
-                            </a>
-                        {% endif %}
-
-                    </li>
+  
                 </ul>
             </div>
         </div>

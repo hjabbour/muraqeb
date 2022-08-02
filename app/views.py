@@ -66,7 +66,7 @@ def index(request):
         #context['chart_data'] = json.dumps(json.load(f))
 
     context['avgc'] =  utils.coltopd()
-    context['all_reports']= utils.all_reports
+    context['all_reports']= utils.colreports()
     return HttpResponse(html_template.render(context, request))
 
 def charts_file(request):
