@@ -3,11 +3,16 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 import json
-
+import folium
+from folium import plugins
 
 client = MongoClient('mongodb://root:rootpasswordhj123@199.241.137.238:27017')
 db = client['raqebloc']
 collection = db['raqebdata']
+todayd = datetime.datetime.today()
+past_day = todayd - relativedelta(days=1)
+past_week = todayd - relativedelta(weeks=1)
+past_month = todayd - relativedelta(weeks=4)
 
 #convert entire collection to Pandas dataframe
 #test = pd.DataFrame(list(collection.find({})))
@@ -15,8 +20,10 @@ collection = db['raqebdata']
 
 
 def coltopd():
+    ## averge prices
     agg_result= collection.aggregate( 
-        [{ 
+        [{"$match":{"time": {"$gt":past_month}}},
+            { 
         "$group" :  
             {"_id" : "$product",  
              "Total" : {"$sum" : 1},
@@ -37,6 +44,7 @@ def coltopd():
     return arr
 
 def colreports():
+    ## calculated the number of reports day, week , month
     all_reports = {}
     pipeline =     [
     {"$group" :  
@@ -45,21 +53,19 @@ def colreports():
          "Average" : {"$avg" :"$price"} 
          }} 
     ] 
-    todayd = datetime.datetime.today()
-    one_day = todayd - relativedelta(days=1)
-    past_week = todayd - relativedelta(weeks=1)
-    past_month = todayd - relativedelta(weeks=4)
+
     all_reports['all'] = collection.count_documents({})
-    all_reports['day'] = collection.count_documents( {"time": {"$gt":one_day}})
+    all_reports['day'] = collection.count_documents( {"time": {"$gt":past_day}})
     all_reports['week'] = collection.count_documents( {"time": {"$gt":past_week}})
     all_reports['month'] = collection.count_documents( {"time": {"$gt":past_month}})
     all_reports['locations'] = nmbrofloc()
     return all_reports 
 
 def minprice():
-    
+    # calculates the min price past month
     agg_result= collection.aggregate( 
-        [{ "$sort": { "price": 1 } },
+        [{"$match":{"time": {"$gt":past_month}}},
+            { "$sort": { "price": 1 } },
             { 
         "$group" :  
             {"_id" : {"Product":"$product"},
@@ -82,9 +88,11 @@ def minprice():
     return arr
 
 def maxprice():
+    # calculates max price past month
     
     agg_result= collection.aggregate( 
-        [{ "$sort": { "price": -1 } },
+        [{"$match":{"time": {"$gt":past_month}}},
+            { "$sort": { "price": -1 } },
             { 
         "$group" :  
             {"_id" : {"Product":"$product"},
@@ -107,7 +115,7 @@ def maxprice():
     return arr
 
 def nmbrofloc():
-    
+    # returns the number of locations 
     agg_result= collection.aggregate( 
         [
             { 
@@ -121,3 +129,37 @@ def nmbrofloc():
         #print(x)
         array.append(x)
     return(len(array))
+
+def recentrep():
+    ## get daily , monthly weekly reports last 10
+    arr ={}
+    limitrec = 20
+    spandays=['day_rep','week_rep','month_rep']
+
+    day_rep = collection.find( {"time": {"$gt":past_day}},{"time":1,"rawloc.display_name":1, "product":1, "price":1,"_id":0}).limit(limitrec)
+    week_rep = collection.find( {"time": {"$gt":past_week}},{"time":1,"rawloc.display_name":1, "product":1, "price":1,"_id":0}).limit(limitrec)
+    month_rep = collection.find( {"time": {"$gt":past_month}},{"time":1,"rawloc.display_name":1, "product":1, "price":1,"_id":0}).limit(limitrec)
+    
+    reports=[day_rep,week_rep,month_rep]
+    for (rep,i) in zip(reports, spandays):
+        df = pd.DataFrame(rep)
+        json_records=df.reset_index().to_json(orient='records')
+        arr[i] = json.loads(json_records)
+        #print(arr)
+    return  arr
+
+def weekmap():
+    m=folium.Map(location=[33.87363,35.67592], zoom_start=9)
+    arr ={}
+    limitrec = 100
+    spandays=['day_map','week_map','month_map']
+    
+    
+    week_rep = collection.find( {"time": {"$gt":past_week}},{"lng":1,"lat":1, "product":1, "price":1,"_id":0}).limit(limitrec)
+    df = pd.DataFrame(week_rep)
+    for i in range(0,len(df)-1):
+        folium.Marker(location=[df.iloc[i]['lat'], df.iloc[i]['lng']],popup=df.iloc[i]['product']+'='+ str(df.iloc[i]['price']),icon=folium.Icon(color='green',icon='glyphicon glyphicon-plus-sign')).add_to(m)
+        plugins.HeatMap(df[['lat','lng','price']]).add_to(m)
+    return  m._repr_html_()
+
+

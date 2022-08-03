@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}  Maps {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10"> Maps</h5>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!-- [ basic-map ] start -->
+                
+                    <!-- [ basic-map ] end -->
+
+                    <!-- [ Markers-map ] start -->
+      
+                    <!-- [ Markers-map ] end -->
+
+                    <!-- [ Geo-Coding-map ] start -->
+                    <div class=" col-xl-12 col-md-20">
+                        <div class="card">
+                            {{ map|safe }}
+                        </div>
+                    </div>
+                    <!-- [ Geo-Coding-map ] end -->
+
+                    <!-- [ Overlay-map ] start -->
+            
+                    <!-- [ Overlay-map ] end -->
+
+                    <!-- [ Street-View-map ] start -->
+                    
+                    <!-- [ Street-View-map ] end -->
+
+                    <!-- [ Map-Types-map ] start -->
+                    
+                    <!-- [ Map-Types-map ] end -->
+
+                    <!-- [ GeoRSS-Layers ] start -->
+                   
+                    <!-- [ GeoRSS-Layers ] end -->
+
+                    <!-- [ Marker-Clustering ] start -->
+                    
+                    <!-- [ Marker-Clustering ] end -->
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    <script src="/static/assets/plugins/google-maps/js/gmaps.js"></script>
+    <script src="/static/assets/js/pages/google-maps.js"></script>
+
+{% endblock javascripts %}

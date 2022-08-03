@@ -69,8 +69,18 @@ def index(request):
     context['all_reports']= utils.colreports()
     context['minp'] =  utils.minprice()
     context['maxp'] =  utils.maxprice()
+    context['recent'] = utils.recentrep()
+
 
     return HttpResponse(html_template.render(context, request))
+
+def maps_muraqeb(request):
+    context = {'segment': 'maps_muraqeb'}
+    html_template = loader.get_template('maps-muraqeb.html')
+    context['maxp'] =  utils.maxprice()
+    context['map'] = utils.weekmap()
+
+    return HttpResponse(html_template.render(context, request))   
 
 def charts_file(request):
     context = {'segment': 'charts_from_file'}

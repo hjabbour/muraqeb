@@ -14,6 +14,7 @@ urlpatterns = [
     path('charts-file'  , views.charts_file , name='charts-file'  ),
     path('charts-input' , views.charts_input, name='charts-input' ),
     path('charts-load'  , views.charts_load,  name='charts-load'  ),
+    path('maps_muraqeb'  , views.maps_muraqeb , name='maps_muraqeb'  ),
 
     # The home page
     path('', views.index, name='home'),

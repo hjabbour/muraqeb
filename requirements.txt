@@ -12,3 +12,4 @@ whitenoise
 django-import-export
 pymongo
 pandas
+folium
