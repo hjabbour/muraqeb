@@ -5,7 +5,12 @@ import pandas as pd
 import json
 import folium
 from folium import plugins
-
+import os
+clientstring = os.environ.get('clientstring')
+client = MongoClient(clientstring)
+print("clientstring=",clientstring)
+print("secretkey=",os.environ.get('SECRET_KEY'))
+## only in dev environnment in production use the os.environ.get
 client = MongoClient('mongodb://root:rootpasswordhj123@199.241.137.238:27017')
 db = client['raqebloc']
 collection = db['raqebdata']
