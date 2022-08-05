@@ -5,8 +5,10 @@ import pandas as pd
 import json
 import folium
 from folium import plugins
-
-client = MongoClient('mongodb://root:rootpasswordhj123@199.241.137.238:27017')
+import os
+clientstring = os.environ.get('clientstring')
+client = MongoClient(clientstring)
+## only in dev environnment in production use the os.environ.get
 db = client['raqebloc']
 collection = db['raqebdata']
 todayd = datetime.datetime.today()
