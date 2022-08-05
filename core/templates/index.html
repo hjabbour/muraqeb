@@ -232,7 +232,7 @@
                                                     <p class="m-0"> </p>  
                                                 </td> 
                                                 <td class="unread">
-                                                    <p class="m-0">{{ i.Location }} </p>  
+                                                    <p class="m-0">{{ i.Location|slice:"0:-12" }} </p>  
                                                 </td> 
                                             </tr>  
                                             {%  endfor  %}  
@@ -279,7 +279,7 @@
                                                     <p class="m-0"> </p>  
                                                 </td> 
                                                 <td class="unread">
-                                                    <p class="m-0">{{ j.Location }} </p>  
+                                                    <p class="m-0">{{ j.Location|slice:"0:-12" }} </p>  
                                                 </td> 
                                             </tr>  
                                             {%  endfor  %}  
@@ -330,7 +330,7 @@
                                                 <h6 class="m-0">{{a.price}}</h6>
                                             </td>
                                             <td>
-                                                <h6 class="m-0">{{a.rawloc.display_name}}</h6>
+                                                <h6 class="m-0">{{a.rawloc.display_name|slice:"0:-12"}}</h6>
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -359,7 +359,7 @@
                                                 <h6 class="m-0">{{c.price}}</h6>
                                             </td>
                                             <td>
-                                                <h6 class="m-0">{{c.rawloc.display_name}}</h6>
+                                                <h6 class="m-0">{{c.rawloc.display_name|slice:"0:-12"}}</h6>
                                             </td>
                                         </tr>
                                         {%endfor%}
@@ -387,7 +387,7 @@
                                                 <h6 class="m-0">{{b.price}}</h6>
                                             </td>
                                             <td>
-                                                <h6 class="m-0">{{b.rawloc.display_name}}</h6>
+                                                <h6 class="m-0">{{b.rawloc.display_name|slice:"0:-12"}}</h6>
                                             </td>
                                         </tr>
                                         {%endfor%}
