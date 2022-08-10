@@ -12,7 +12,7 @@ client = MongoClient(clientstring)
 ## locally use the dev environment for the clientstring
 db = client['raqebloc']
 collection = db['raqebdata']
-todayd = datetime.datetime.today()g
+todayd = datetime.datetime.today()
 past_day = todayd - relativedelta(days=1)
 past_week = todayd - relativedelta(weeks=1)
 past_month = todayd - relativedelta(weeks=4)
