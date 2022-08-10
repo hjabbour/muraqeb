@@ -8,11 +8,11 @@ from folium import plugins
 import os
 clientstring = os.environ.get('clientstring')
 client = MongoClient(clientstring)
-client = MongoClient('mongodb://root:rootpasswordhj123@199.241.137.238:27017')
 ## only in dev environnment in production use the os.environ.get
+## locally use the dev environment for the clientstring
 db = client['raqebloc']
 collection = db['raqebdata']
-todayd = datetime.datetime.today()
+todayd = datetime.datetime.today()g
 past_day = todayd - relativedelta(days=1)
 past_week = todayd - relativedelta(weeks=1)
 past_month = todayd - relativedelta(weeks=4)
