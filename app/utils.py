@@ -8,6 +8,7 @@ from folium import plugins
 import os
 clientstring = os.environ.get('clientstring')
 client = MongoClient(clientstring)
+client = MongoClient('mongodb://root:rootpasswordhj123@199.241.137.238:27017')
 ## only in dev environnment in production use the os.environ.get
 db = client['raqebloc']
 collection = db['raqebdata']
@@ -159,7 +160,7 @@ def weekmap():
     
     week_rep = collection.find( {"time": {"$gt":past_week}},{"lng":1,"lat":1, "product":1, "price":1,"_id":0}).limit(limitrec)
     df = pd.DataFrame(week_rep)
-    for i in range(0,len(df)-1):
+    for i in range(0,len(df)):
         folium.Marker(location=[df.iloc[i]['lat'], df.iloc[i]['lng']],popup=df.iloc[i]['product']+'='+ str(df.iloc[i]['price']),icon=folium.Icon(color='green',icon='glyphicon glyphicon-plus-sign')).add_to(m)
         plugins.HeatMap(df[['lat','lng','price']]).add_to(m)
     return  m._repr_html_()
